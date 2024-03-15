@@ -4,8 +4,9 @@ import Button from '@/components/Button'
 import { defaultPizzaImage } from '@/components/ProductListItem'
 import Colors from '@/constants/Colors'
 import * as ImagePicker from 'expo-image-picker';
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { useLocalSearchParams } from 'expo-router'
+import { useInsertProduct } from '@/api/products'
 
 const CreateProductScreen = () => {
     const [name, setName] = useState('')
@@ -15,6 +16,10 @@ const CreateProductScreen = () => {
 
   const {id} = useLocalSearchParams()
   const isUpdating = !!id
+
+  const {mutate: insertProduct} = useInsertProduct()
+
+  const router = useRouter()
 
 
     const resetFields = () => {
@@ -56,7 +61,16 @@ const CreateProductScreen = () => {
         console.warn('Creating product: ', name)
 
         // save in the database
-        resetFields()
+        insertProduct({
+            name,
+            price: parseFloat(price),
+            image
+        }, {
+            onSuccess: () => {
+                resetFields()
+                router.back()
+            }
+        })
     }
 
     
