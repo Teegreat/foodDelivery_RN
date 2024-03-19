@@ -6,7 +6,7 @@ import Colors from '@/constants/Colors'
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from 'expo-router'
 import { useLocalSearchParams } from 'expo-router'
-import { useInsertProduct, useProduct, useUpdateProduct } from '@/api/products'
+import { useDeleteProduct, useInsertProduct, useProduct, useUpdateProduct } from '@/api/products'
 
 const CreateProductScreen = () => {
     const [name, setName] = useState('')
@@ -21,7 +21,8 @@ const CreateProductScreen = () => {
 
   const {mutate: insertProduct} = useInsertProduct()
   const {mutate: updateProduct} = useUpdateProduct()
-
+  const {mutate: deleteProduct} = useDeleteProduct()
+  
   const {data: updatingProduct} = useProduct(id)
 
   const router = useRouter()
@@ -116,7 +117,12 @@ const CreateProductScreen = () => {
   };
 
   const onDelete = () => {
-    console.warn('DELETE!!!!')
+    deleteProduct(id, {
+        onSuccess: () => {
+            resetFields()
+            router.replace('/(admin)')
+        }
+    })
   }
 
   const confirmDelete = () => {
