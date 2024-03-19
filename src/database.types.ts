@@ -1,4 +1,6 @@
-export type Json =
+Need to install the following packages:
+supabase@1.150.0
+Ok to proceed? (y) export type Json =
   | string
   | number
   | boolean
@@ -9,6 +11,73 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      order_items: {
+        Row: {
+          created_at: string
+          id: number
+          order_id: string
+          product_id: number
+          quantity: number
+          size: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          order_id: string
+          product_id: number
+          quantity?: number
+          size?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          order_id?: string
+          product_id?: number
+          quantity?: number
+          size?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: number
+          status: string
+          total: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          status?: string
+          total: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          status?: string
+          total?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       products: {
         Row: {
           created_at: string
