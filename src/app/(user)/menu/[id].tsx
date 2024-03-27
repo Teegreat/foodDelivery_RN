@@ -10,6 +10,7 @@ import { PizzaSize } from '@/types'
 import { useRouter } from 'expo-router'
 import { useProduct } from '@/api/products'
 import { ActivityIndicator } from 'react-native'
+import RemoteImage from '@/components/RemoteImage'
 
 const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
 
@@ -45,7 +46,11 @@ const ProductDetailsScreen = () => {
     <View style={styles.container}> 
       <Stack.Screen options={{title: product.name}} />
 
-      <Image source={{uri: product.image || defaultPizzaImage}} style={styles.image} />
+      <RemoteImage 
+        style={styles.image} 
+        path={product?.image}
+        fallback={defaultPizzaImage}
+      />
 
       <Text>Select size</Text>
       <View style={styles.sizes}>
