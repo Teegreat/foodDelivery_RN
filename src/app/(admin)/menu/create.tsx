@@ -92,12 +92,14 @@ const CreateProductScreen = () => {
     }
 
     
-    const onUpdate = () => {
+    const onUpdate = async () => {
         if (!validateInput()) {
             return
         }
 
-        updateProduct({id, name, price: parseFloat(price), image}, {
+        const imagePath = await uploadImage()
+
+        updateProduct({id, name, price: parseFloat(price), image: imagePath}, {
             onSuccess: () => {
                 resetFields()
                 router.back()
@@ -167,7 +169,7 @@ const CreateProductScreen = () => {
   return (
     <View style={styles.container}>
         <Stack.Screen options={{title: isUpdating ? 'Update Product' : 'Create Product'}} />
-        
+
         <Image source={{uri: image || defaultPizzaImage}} style={styles.image} />
         <Text onPress={pickImage} style={styles.textButton}>Select Image</Text>
 
